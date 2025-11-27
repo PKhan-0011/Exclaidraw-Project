@@ -1,0 +1,53 @@
+
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Yha p schema define hota hai okkh primsa ka!..
+
+model User {
+   id  String  @id @default(uuid())
+   name String 
+   email String @unique
+   password String 
+   photo String? // optional hai ye okkh!..
+   // mugeh yha p like yahi realtionship smjh nahi ayya hai bass baki sab thik hai okkh!..
+    room roomId[]
+    chat Chat[]
+}
+
+model roomId {
+   id Int @id @default(autoincrement())
+   slug String @unique
+   createdAt DateTime @default(now())
+
+   // mughe yha p rellationship chaiye okkh! like userId ka to kuch aise karenge!..
+   adminId String 
+   admin   User @relation(fields: [adminId], references: [id])
+   chats Chat[]
+}
+
+model Chat {
+   id Int @id @default(autoincrement())
+   messages String 
+   
+   // ye jo hai wo like one to many relationShip hoga okkh!..
+   roomId Int
+   room roomId @relation(fields: [roomId], references: [id])
+   userId String 
+   user User @relation(fields: [userId], references: [id])
+}
+
+
+// dekh ye jo bna hai ye schema hai okkh! agar maine yha s ppehle 
+// npx prisma generate kar deta hu to wo client ban jata hai okkh!.. like fir mai ye use kar skatra hu findOne and findMany etc..
+// but in case maine npx prisma migrate dev nahi kiya hai to wo sql ka dataBase hi nahi banega okkh!.
+
+
+// Relation ka todha sa dhyan rakhio okkh!..
