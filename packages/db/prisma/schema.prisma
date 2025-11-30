@@ -11,43 +11,46 @@ datasource db {
 
 // Yha p schema define hota hai okkh primsa ka!..
 
+// User jo hai wo like bhut room Create kar sakta hai okkh and chat bhi wo bhut sare kar sakta hai but ek hi user okkh!..
+// To yha p one-many realtionship hoga!..
+
 model User {
-   id  String  @id @default(uuid())
-   name String 
-   email String @unique
-   password String 
-   photo String? // optional hai ye okkh!..
-   // mugeh yha p like yahi realtionship smjh nahi ayya hai bass baki sab thik hai okkh!..
-    room roomId[]
-    chat Chat[]
+  id Int @id @default(autoincrement())
+  userName String
+  email String
+  password String
+  room room[] // ye jo hai wo like room ka logic hai okkh!..
+  chat Chat[] // one to many realtion-ship
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-model roomId {
-   id Int @id @default(autoincrement())
-   slug String @unique
-   createdAt DateTime @default(now())
-
-   // mughe yha p rellationship chaiye okkh! like userId ka to kuch aise karenge!..
-   adminId String 
-   admin   User @relation(fields: [adminId], references: [id])
-   chats Chat[]
-}
-
-model Chat {
-   id Int @id @default(autoincrement())
-   messages String 
+model room{
+  id Int @id @default(autoincrement())
+  roomId Int 
+  // Abb relationship ayega Yha p okkh! 
+  
+  userId Int
+  user User @relation(fields: [userId], references: [id])
    
-   // ye jo hai wo like one to many relationShip hoga okkh!..
-   roomId Int
-   room roomId @relation(fields: [roomId], references: [id])
-   userId String 
-   user User @relation(fields: [userId], references: [id])
+   // Yha like ek room s multiple chat bhii karr sakte hai okkh to yha hi like one-many realationship okh!..
+  chat Chat[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
+model Chat{
+  id Int @id @default(autoincrement())
 
-// dekh ye jo bna hai ye schema hai okkh! agar maine yha s ppehle 
-// npx prisma generate kar deta hu to wo client ban jata hai okkh!.. like fir mai ye use kar skatra hu findOne and findMany etc..
-// but in case maine npx prisma migrate dev nahi kiya hai to wo sql ka dataBase hi nahi banega okkh!.
+  // relationship okkh!..
 
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+  
+  roomId Int
+  room room @relation(fields: [roomId], references: [id])
 
-// Relation ka todha sa dhyan rakhio okkh!..
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
