@@ -1,8 +1,7 @@
 
 
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -21,12 +20,16 @@ model User {
   password String
   room room[] // ye jo hai wo like room ka logic hai okkh!..
   chat Chat[] // one to many realtion-ship
+  photo String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model room{
   id Int @id @default(autoincrement())
+
+  slug String @unique
+
   roomId Int 
   // Abb relationship ayega Yha p okkh! 
   
@@ -40,6 +43,7 @@ model room{
   updatedAt DateTime @updatedAt
 }
 
+
 model Chat{
   id Int @id @default(autoincrement())
 
@@ -50,6 +54,8 @@ model Chat{
   
   roomId Int
   room room @relation(fields: [roomId], references: [id])
+  
+  message String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
