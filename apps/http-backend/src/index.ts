@@ -62,6 +62,12 @@ app.get("/chat/:roomId", async (req, res) => {
   res.json({ message });
 });
 
+app.get("/room/:slug", async (req, res) => {
+  // to mughe actully jo ye slug hai isko path params s find karna padega okkh!>.
+  const slugId = req.params.slug;
+  const room = await prismaUser.room.findFirst({ where: { slug: slugId } });
+});
+
 app.listen(3001);
 
 // Update the turbo-config in both the projects..

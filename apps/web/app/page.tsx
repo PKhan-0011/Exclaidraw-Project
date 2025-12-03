@@ -1,6 +1,8 @@
+"use client";
+
 import styles from "./page.module.css";
 import { useState } from "react";
-import { useRouter } from "next/Router";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [roomId, setRoomId] = useState("");
