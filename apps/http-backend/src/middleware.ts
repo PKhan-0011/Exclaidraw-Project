@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import jwt, { type JwtPayload } from "jsonwebtoken";
-import JWT_SECRET from "./config.js";
+import { JWT_SECRET } from "@repo/backend-common/JWT_SECRET";
 
 export async function middleware(
   req: Request,

@@ -45,6 +45,23 @@ app.post("/signIn", (req, res) => {
 
 app.post("/roomId", middleware, (req, res) => {});
 
+app.get("/chat/:roomId", async (req, res) => {
+  // ye jo above wala hai na ye like path params hai iski id find karne k liye mughe req.params.roomId isse roomId mil jayegi okkh!>.
+  const roomId = Number(req.params.roomId);
+
+  const message = await prismaUser.room.findMany({
+    where: {
+      roomId: roomId,
+    },
+    orderBy: {
+      id: "desc",
+    },
+    take: 50,
+  });
+
+  res.json({ message });
+});
+
 app.listen(3001);
 
 // Update the turbo-config in both the projects..
