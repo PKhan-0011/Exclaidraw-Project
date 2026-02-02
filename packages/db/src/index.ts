@@ -6,4 +6,4 @@
 // and relationship kaise aa rha hota hai wo bhi dekhio ek bar okkh!..
 
 import { PrismaClient } from "@prisma/client";
-export const prismaUser = new PrismaClient();
+export const prisma = new PrismaClient();
